@@ -28,6 +28,7 @@ train {
     ]
 
     parameters {
+        GCP_PROJECT = "span-production"
         RAW_BIGQUERY_PROJECT = "span-production"
         RAW_BIGQUERY_DATASET = "churn"
         RAW_SUBSCRIBER_TABLE = "subscribers"
