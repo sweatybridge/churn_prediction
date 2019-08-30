@@ -2,7 +2,7 @@ version = "1.0"
 
 train {
     image = "basisai/workload-standard:v0.1.0"
-    install = ["pip3 install -r requirements.txt"]
+    install = ["pip3 install -r requirements.txt && echo $SERVICE_ACCOUNT_JSON > $GOOGLE_APPLICATION_CREDENTIALS"]
     script = [
         {spark-submit {
             script = "train.py"
@@ -29,6 +29,7 @@ train {
 
     parameters {
         GOOGLE_CLOUD_PROJECT = "span-production"
+        GOOGLE_APPLICATION_CREDENTIALS = "/tmp/key.json"
         RAW_BIGQUERY_PROJECT = "span-production"
         RAW_BIGQUERY_DATASET = "churn"
         RAW_SUBSCRIBER_TABLE = "subscribers"
@@ -43,7 +44,7 @@ train {
     }
 
     secrets = [
-        "GOOGLE_APPLICATION_CREDENTIALS"
+        "SERVICE_ACCOUNT_JSON"
     ]
 }
 
