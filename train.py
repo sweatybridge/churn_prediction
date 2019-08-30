@@ -54,6 +54,7 @@ def compute_log_metrics(gbm, x_val, y_val):
 
 
 def main():
+    print(f'project id: {os.getenv("GOOGLE_CLOUD_PROJECT")}')
     """Train pipeline"""
     print("\tGenerating features")
     with SparkSession.builder.appName("Preprocessing").getOrCreate() as spark:
