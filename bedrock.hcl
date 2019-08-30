@@ -18,7 +18,7 @@ train {
                 spark.executorEnv.GOOGLE_APPLICATION_CREDENTIALS = "key.json"
                 spark.memory.fraction = "0.5"
                 spark.hadoop.fs.AbstractFileSystem.gs.impl = "com.google.cloud.hadoop.fs.gcs.GoogleHadoopFS"
-                spark.hadoop.google.cloud.auth.service.account.enable = "true"
+                // spark.hadoop.google.cloud.auth.service.account.enable = "true"
                 spark.sql.parquet.compression.codec = "gzip"
             }
             // to be passed in as --key=value
