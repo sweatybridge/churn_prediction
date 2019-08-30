@@ -41,6 +41,10 @@ train {
         N_ESTIMATORS = "250"
         OUTPUT_MODEL_NAME = "lgb_model.pkl"
     }
+
+    secrets = [
+        "GOOGLE_APPLICATION_CREDENTIALS"
+    ]
 }
 
 batch_score {
