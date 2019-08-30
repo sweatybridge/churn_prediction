@@ -2,7 +2,7 @@ version = "1.0"
 
 train {
     image = "basisai/workload-standard:v0.1.0"
-    install = ["pip3 install -r requirements.txt && echo $SERVICE_ACCOUNT_JSON > $GOOGLE_APPLICATION_CREDENTIALS"]
+    install = ["pip3 install -r requirements.txt && echo $SERVICE_ACCOUNT_JSON > /tmp/key.json"]
     script = [
         {spark-submit {
             script = "train.py"
@@ -15,7 +15,7 @@ train {
                 spark.driver.cores = "2"
                 spark.executor.memory = "4g"
                 spark.executor.cores = "2"
-                spark.executorEnv.GOOGLE_APPLICATION_CREDENTIALS = "key.json"
+                // spark.executorEnv.GOOGLE_APPLICATION_CREDENTIALS = "key.json"
                 spark.memory.fraction = "0.5"
                 spark.hadoop.fs.AbstractFileSystem.gs.impl = "com.google.cloud.hadoop.fs.gcs.GoogleHadoopFS"
                 // spark.hadoop.google.cloud.auth.service.account.enable = "true"
@@ -31,7 +31,7 @@ train {
 
     parameters {
         // GOOGLE_CLOUD_PROJECT = "span-production"
-        GOOGLE_APPLICATION_CREDENTIALS = "/tmp/key.json"
+        // GOOGLE_APPLICATION_CREDENTIALS = "/tmp/key.json"
         RAW_BIGQUERY_PROJECT = "span-production"
         RAW_BIGQUERY_DATASET = "churn"
         RAW_SUBSCRIBER_TABLE = "subscribers"
