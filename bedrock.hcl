@@ -28,7 +28,7 @@ train {
     ]
 
     parameters {
-        GOOGLE_CLOUD_PROJECT = "span-production"
+        // GOOGLE_CLOUD_PROJECT = "span-production"
         GOOGLE_APPLICATION_CREDENTIALS = "/tmp/key.json"
         RAW_BIGQUERY_PROJECT = "span-production"
         RAW_BIGQUERY_DATASET = "churn"
