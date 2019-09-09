@@ -1,14 +1,14 @@
 version = "1.0"
 
 train {
-    image = "basisai/workload-standard:v0.1.0"
-    install = ["pip3 install -r requirements.txt"]
+    image = "basisai/workload-standard:v0.1.2"
+    install = ["pip3 install ply && pip3 install -r requirements.txt && echo $SERVICE_ACCOUNT_JSON > key.json"]
     script = [
         {spark-submit {
             script = "train.py"
             // to be passed in as --conf key=value
             conf {
-                spark.kubernetes.container.image = "basisai/workload-standard:v0.1.0"
+                spark.kubernetes.container.image = "basisai/workload-standard:v0.1.2"
                 spark.kubernetes.pyspark.pythonVersion = "3"
                 spark.driver.memory = "4g"
                 spark.driver.cores = "2"
@@ -19,12 +19,18 @@ train {
                 spark.sql.parquet.compression.codec = "gzip"
                 spark.hadoop.fs.AbstractFileSystem.gs.impl = "com.google.cloud.hadoop.fs.gcs.GoogleHadoopFS"
                 spark.hadoop.google.cloud.auth.service.account.enable = "true"
+                spark.hadoop.google.cloud.auth.service.account.json.keyfile = "key.json"
             }
             // to be passed in as --key=value
             settings {
                 jars = "gs://spark-lib/bigquery/spark-bigquery-latest.jar"
+                files = "key.json"
             }
         }}
+    ]
+
+    secrets = [
+        "SERVICE_ACCOUNT_JSON"
     ]
 
     parameters {
