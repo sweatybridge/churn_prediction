@@ -2,13 +2,13 @@ version = "1.0"
 
 train {
     image = "basisai/workload-standard:v0.1.2"
-    install = ["pip3 install -r requirements.txt && echo $SERVICE_ACCOUNT_JSON > key.json && cat key.json"]
+    install = ["pip3 install ply && pip3 install -r requirements.txt && echo $SERVICE_ACCOUNT_JSON > key.json"]
     script = [
         {spark-submit {
             script = "train.py"
             // to be passed in as --conf key=value
             conf {
-                spark.kubernetes.container.image = "basisai/workload-standard:v0.1.0"
+                spark.kubernetes.container.image = "basisai/workload-standard:v0.1.2"
                 spark.kubernetes.pyspark.pythonVersion = "3"
                 spark.driver.memory = "4g"
                 spark.driver.cores = "2"
