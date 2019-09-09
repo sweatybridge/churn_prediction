@@ -23,7 +23,7 @@ train {
             }
             // to be passed in as --key=value
             settings {
-                jars = "gs://spark-lib/bigquery/spark-bigquery-latest.jar"
+                jars = "https://storage.googleapis.com/spark-lib/bigquery/spark-bigquery-latest.jar"
                 files = "key.json"
             }
         }}
