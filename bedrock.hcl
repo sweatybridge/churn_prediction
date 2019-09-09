@@ -19,10 +19,11 @@ train {
                 spark.sql.parquet.compression.codec = "gzip"
                 spark.hadoop.fs.AbstractFileSystem.gs.impl = "com.google.cloud.hadoop.fs.gcs.GoogleHadoopFS"
                 spark.hadoop.google.cloud.auth.service.account.enable = "true"
-                spark.hadoop.google.cloud.auth.service.account.json.keyfile = "/tmp/key.json"
+                spark.hadoop.google.cloud.auth.service.account.json.keyfile = "key.json"
             }
             // to be passed in as --key=value
             settings {
+                files = "/tmp/key.json"
             }
         }}
     ]
