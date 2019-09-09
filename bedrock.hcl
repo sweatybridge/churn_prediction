@@ -2,7 +2,7 @@ version = "1.0"
 
 train {
     image = "basisai/workload-standard:v0.1.2"
-    install = ["pip3 install -r requirements.txt && echo $SERVICE_ACCOUNT_JSON > /tmp/key.json && cat /tmp/key.json"]
+    install = ["pip3 install -r requirements.txt && echo $SERVICE_ACCOUNT_JSON > key.json && cat key.json"]
     script = [
         {spark-submit {
             script = "train.py"
@@ -23,7 +23,7 @@ train {
             }
             // to be passed in as --key=value
             settings {
-                files = "/tmp/key.json"
+                files = "key.json"
             }
         }}
     ]
