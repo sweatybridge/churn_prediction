@@ -18,7 +18,6 @@ train {
                 spark.memory.fraction = "0.5"
                 spark.sql.parquet.compression.codec = "gzip"
                 spark.hadoop.fs.AbstractFileSystem.gs.impl = "com.google.cloud.hadoop.fs.gcs.GoogleHadoopFS"
-                spark.hadoop.google.cloud.auth.service.account.enable = "true"
             }
             // to be passed in as --key=value
             settings {
