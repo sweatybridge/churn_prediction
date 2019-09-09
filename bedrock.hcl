@@ -2,7 +2,7 @@ version = "1.0"
 
 train {
     image = "basisai/workload-standard:v0.1.2"
-    install = ["pip3 install -r requirements.txt"]
+    install = ["pip3 install -r requirements.txt && echo $SERVICE_ACCOUNT_JSON > $GOOGLE_APPLICATION_CREDENTIALS"]
     script = [
         {spark-submit {
             script = "train.py"
@@ -18,6 +18,7 @@ train {
                 spark.memory.fraction = "0.5"
                 spark.sql.parquet.compression.codec = "gzip"
                 spark.hadoop.fs.AbstractFileSystem.gs.impl = "com.google.cloud.hadoop.fs.gcs.GoogleHadoopFS"
+                spark.hadoop.google.cloud.auth.service.account.enable = "true"
             }
             // to be passed in as --key=value
             settings {
@@ -25,7 +26,12 @@ train {
         }}
     ]
 
+    secrets = [
+        "SERVICE_ACCOUNT_JSON"
+    ]
+
     parameters {
+        GOOGLE_APPLICATION_CREDENTIALS = "/tmp/key.json"
         RAW_SUBSCRIBERS_DATA = "gs://bedrock-sample/churn_data/subscribers.gz.parquet"
         RAW_CALLS_DATA = "gs://bedrock-sample/churn_data/all_calls.gz.parquet"
         LR = "0.05"
