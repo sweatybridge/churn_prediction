@@ -21,7 +21,10 @@ train {
     // A step's name must be unique.
     step spark {
         image = "basisai/workload-standard:v0.1.2"
-        install = ["pip3 install --upgrade pip && pip3 install -r requirements.txt"]
+        install = [
+            "pip3 install --upgrade pip && pip3 install -r requirements.txt",
+            "echo $SERVICE_ACCOUNT_JSON > key.json"
+        ]
         // As we are using Spark, "script" is written in the manner shown below.
         // If Spark is not required, it is just simply:
         // script = [{sh = ["python3 train.py"]}]
@@ -41,9 +44,11 @@ train {
                     spark.sql.parquet.compression.codec = "gzip"
                     spark.hadoop.fs.AbstractFileSystem.gs.impl = "com.google.cloud.hadoop.fs.gcs.GoogleHadoopFS"
                     spark.hadoop.google.cloud.auth.service.account.enable = "true"
+                    spark.hadoop.google.cloud.auth.service.account.json.keyfile = "key.json"
                 }
                 // to be passed in as --key=value
                 settings {
+                    files = "key.json"
                 }
             }}
         ]
@@ -63,6 +68,10 @@ train {
         OUTPUT_MODEL_NAME = "lgb_model.pkl"
         ENDPOINT_ID = "https://fluent-test.aws.amoy.ai"
     }
+
+    secrets = [
+        "SERVICE_ACCOUNT_JSON"
+    ]
 
     // only provide the NAMES of the secrets here, NOT the secret values.
     // you will enter the secret values from Bedrock web UI.
