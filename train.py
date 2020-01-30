@@ -62,9 +62,10 @@ def main():
         model_data = generate_features(spark).toPandas()
 
     print(f"\tData size: {len(model_data)}")
-    print(f"\trow[0]: {model_data[0]}")
-    for row in model_data:
+    for index, row in model_data.iterrows():
         body = {key: row[key] for key in FEATURE_COLS}
+        if index == 0:
+            print(body)
         requests.post(ENDPOINT_ID, json=body)
         time.sleep(random.random() / 10)
 
