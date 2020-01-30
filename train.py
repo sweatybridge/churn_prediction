@@ -62,9 +62,9 @@ def main():
         model_data = generate_features(spark).toPandas()
 
     print(f"\tData size: {len(model_data)}")
-    print(f"\trow[0]: {model_data[FEATURE_COLS][0]}")
-    for row in model_data[FEATURE_COLS]:
-        body = {v: row[i] for i, v in enumerate(FEATURE_COLS)}
+    print(f"\trow[0]: {model_data[0]}")
+    for row in model_data:
+        body = {key: row[key] for key in FEATURE_COLS}
         requests.post(ENDPOINT_ID, json=body)
         time.sleep(random.random() / 10)
 
