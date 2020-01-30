@@ -14,7 +14,8 @@ from sklearn import metrics
 from sklearn.model_selection import train_test_split
 
 from pyspark.sql import SparkSession
-from utils.constants import FEATURE_COLS, TARGET_COL
+from utils.constants import (AREA_CODES, FEATURE_COLS, STATES,
+                             SUBSCRIBER_FEATURES, TARGET_COL)
 from utils.preprocess import generate_features
 
 LR = float(os.getenv("LR"))
@@ -63,7 +64,9 @@ def main():
 
     print(f"\tData size: {len(model_data)}")
     for index, row in model_data.iterrows():
-        body = {key: row[key] for key in FEATURE_COLS}
+        body = {key: row[key] for key in SUBSCRIBER_FEATURES}
+        body["State"] = random.choice(STATES)
+        body["Area_Code"] = random.choice(AREA_CODES)
         if index == 0:
             print(body)
         requests.post(ENDPOINT_ID, json=body)
