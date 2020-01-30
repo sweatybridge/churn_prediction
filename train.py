@@ -4,13 +4,16 @@ Script to train model.
 import logging
 import os
 import pickle
+import random
+import time
 
-from bedrock_client.bedrock.api import BedrockApi
 import lightgbm as lgb
+import requests
+from bedrock_client.bedrock.api import BedrockApi
 from sklearn import metrics
 from sklearn.model_selection import train_test_split
-from pyspark.sql import SparkSession
 
+from pyspark.sql import SparkSession
 from utils.constants import FEATURE_COLS, TARGET_COL
 from utils.preprocess import generate_features
 
@@ -18,6 +21,7 @@ LR = float(os.getenv("LR"))
 NUM_LEAVES = int(os.getenv("NUM_LEAVES"))
 N_ESTIMATORS = int(os.getenv("N_ESTIMATORS"))
 OUTPUT_MODEL_NAME = os.getenv("OUTPUT_MODEL_NAME")
+ENDPOINT_ID = os.getenv("ENDPOINT_ID")
 
 
 def compute_log_metrics(gbm, x_val, y_val):
@@ -56,6 +60,13 @@ def main():
     with SparkSession.builder.appName("FeatureGeneration").getOrCreate() as spark:
         spark.sparkContext.setLogLevel("FATAL")
         model_data = generate_features(spark).toPandas()
+
+    print(f"\tData size: {len(model_data)}")
+    print(f"\trow[0]: {model_data[FEATURE_COLS][0]}")
+    for row in model_data[FEATURE_COLS]:
+        body = {v: row[i] for i, v in enumerate(FEATURE_COLS)}
+        requests.post(ENDPOINT_ID, json=body)
+        time.sleep(random.random() / 10)
 
     print("\tSplitting train and validation data")
     x_train, x_val, y_train, y_val = train_test_split(

@@ -61,6 +61,7 @@ train {
         NUM_LEAVES = "10"
         N_ESTIMATORS = "150"
         OUTPUT_MODEL_NAME = "lgb_model.pkl"
+        ENDPOINT_ID = "https://fluent-test.aws.amoy.ai"
     }
 
     // only provide the NAMES of the secrets here, NOT the secret values.
