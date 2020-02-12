@@ -40,12 +40,12 @@ def compute_log_metrics(gbm, x_val, y_val):
 
     # Log metrics
     bedrock = BedrockApi(logging.getLogger(__name__))
-    bedrock.log_metric("Accuracy", acc)
-    bedrock.log_metric("Precision", precision)
-    bedrock.log_metric("Recall", recall)
-    bedrock.log_metric("F1 score", f1_score)
-    bedrock.log_metric("AUC", auc)
-    bedrock.log_metric("Avg precision", avg_prc)
+    bedrock.log_metric("Accuracy 2", acc)
+    bedrock.log_metric("Precision 2", precision)
+    bedrock.log_metric("Recall 2", recall)
+    bedrock.log_metric("F1 score 2", f1_score)
+    bedrock.log_metric("AUC 2", auc)
+    bedrock.log_metric("Avg precision 2", avg_prc)
     bedrock.log_chart_data(y_val.astype(int).tolist(),
                            y_prob.flatten().tolist())
 
