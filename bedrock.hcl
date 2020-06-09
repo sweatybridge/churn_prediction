@@ -241,4 +241,8 @@ serve {
         WORKERS = "2"
         prometheus_multiproc_dir = "/tmp"
     }
+
+    secrets = [
+        "BDRK_API_TOKEN"
+    ]
 }
