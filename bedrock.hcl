@@ -226,14 +226,13 @@ Only comprises the following:
 - [required] script: the command that calls the script
 */
 serve {
-    image = "basisai/flask-gunicorn"
+    image = "asia.gcr.io/span-ai/flask-gunicorn:v0.0.1.dev1"
     install = [
-        "pip3 install --upgrade pip",
-        "pip3 install -r requirements-serve.txt",
+        "pip install -r requirements-serve.txt",
     ]
     script = [
         {sh = [
-            "./entrypoint"
+            "./entrypoint.sh"
         ]}
     ]
 
