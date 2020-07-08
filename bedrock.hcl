@@ -226,19 +226,18 @@ Only comprises the following:
 - [required] script: the command that calls the script
 */
 serve {
-    image = "python:3.7"
+    image = "basisai/flask-gunicorn"
     install = [
         "pip3 install --upgrade pip",
         "pip3 install -r requirements-serve.txt",
     ]
     script = [
         {sh = [
-            "gunicorn --config gunicorn_config.py --bind=:${BEDROCK_SERVER_PORT:-8080} --worker-class=gthread --workers=${WORKERS} --timeout=300 --preload serve_http:app"
+            "./entrypoint"
         ]}
     ]
 
     parameters {
-        WORKERS = "2"
-        prometheus_multiproc_dir = "/tmp"
+        BEDROCK_SERVER = "serve"
     }
 }
