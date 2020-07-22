@@ -232,6 +232,7 @@ serve {
     ]
     script = [
         {sh = [
+            "mv histogram.prom /artefact/",
             "/app/entrypoint.sh"
         ]}
     ]
