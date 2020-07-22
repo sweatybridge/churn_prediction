@@ -1,48 +1,31 @@
 """
 Script for serving.
 """
-import json
-import pickle
-
-import numpy as np
-
-from utils.constants import AREA_CODES, STATES, SUBSCRIBER_FEATURES
+import torch
+from PIL import Image
+from torchvision.models import resnet50
+from torchvision.transforms import CenterCrop, Compose, Normalize, Resize, ToTensor
 
 
-def pre_process(http_body):
-    """Predict churn probability given subscriber_features.
-
-    Args:
-        subscriber_features (dict)
-        model
-
-    Returns:
-        churn_prob (float): churn probability
-    """
-    subscriber_features = json.loads(http_body)
-    row_feats = list()
-    for col in SUBSCRIBER_FEATURES:
-        row_feats.append(subscriber_features[col])
-
-    for area_code in AREA_CODES:
-        if subscriber_features["Area_Code"] == area_code:
-            row_feats.append(1)
-        else:
-            row_feats.append(0)
-
-    for state in STATES:
-        if subscriber_features["State"] == state:
-            row_feats.append(1)
-        else:
-            row_feats.append(0)
-
-    return np.array(row_feats).reshape(1, -1)
+def pre_process(http_body, files):
+    return [Image.open(files["image"])]
 
 
 class Model:
     def __init__(self):
-        with open("/artefact/lgb_model.pkl", "rb") as f:
-            self.model = pickle.load(f)
+        self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+        self.model = resnet50(pretrained=True)
+        self.model.to(self.device)
+        self.model.eval()
+        self.transform = Compose(
+            [
+                Resize(256),
+                CenterCrop(224),
+                ToTensor(),
+                Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+            ]
+        )
 
     def predict(self, features):
-        return self.model.predict_proba(features)[:, 1].item()
+        features_t = self.transform(features[0]).unsqueeze_(0)
+        return self.model(features_t).max(1)[1].item()
