@@ -9,7 +9,7 @@ import numpy as np
 from utils.constants import AREA_CODES, STATES, SUBSCRIBER_FEATURES
 
 
-def pre_process(http_body):
+def pre_process(http_body, files=None):
     """Predict churn probability given subscriber_features.
 
     Args:
