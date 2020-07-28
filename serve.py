@@ -28,5 +28,5 @@ class Model:
         )
 
     def predict(self, features):
-        features_t = self.transform(features[0]).unsqueeze_(0)
+        features_t = self.transform(features[0]).unsqueeze_(0).to(self.device)
         return self.model(features_t).max(1)[1].item()
