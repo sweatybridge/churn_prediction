@@ -13,7 +13,8 @@ def pre_process(http_body, files):
 
 class Model:
     def __init__(self):
-        self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        print(f"Inference using: {self.device}")
         self.model = resnet50(pretrained=True)
         self.model.to(self.device)
         self.model.eval()
