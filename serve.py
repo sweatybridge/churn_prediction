@@ -36,7 +36,7 @@ def pre_process(http_body):
         else:
             row_feats.append(0)
 
-    return np.array(row_feats)
+    return np.array(row_feats, dtype=float)
 
 
 class Model:
