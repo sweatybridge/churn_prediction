@@ -10,7 +10,7 @@ from bedrock_client.bedrock.model import BaseModel
 from utils.constants import AREA_CODES, STATES, SUBSCRIBER_FEATURES
 
 
-class Model:
+class Model(BaseModel):
     def __init__(self):
         with open("/artefact/lgb_model.pkl", "rb") as f:
             self.model = pickle.load(f)
