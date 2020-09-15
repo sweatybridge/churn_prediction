@@ -226,7 +226,7 @@ Only comprises the following:
 - [required] script: the command that calls the script
 */
 serve {
-    image = "basisai/express-flask:v0.0.1"
+    image = "basisai/express-flask:v0.0.2.dev2"
     install = [
         "pip install -r requirements-serve.txt",
     ]
