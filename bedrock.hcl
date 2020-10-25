@@ -226,7 +226,7 @@ Only comprises the following:
 - [required] script: the command that calls the script
 */
 serve {
-    image = "asia.gcr.io/span-staging/flask-gunicorn:v0.0.1.dev6"
+    image = "asia.gcr.io/span-production/express-flask:v0.0.3-gpu"
     install = [
         "pip install -r requirements-serve.txt",
     ]
